@@ -1217,8 +1217,7 @@ final class EmoteList {
     public const ZOMBIE_WALK = "616fb500-02d3-acd0-0330-ab86ae0b90fe";
     public const BLADDER_BALLOON = "ff0e058c-e9ca-7ec2-b01d-834f9460903e";
 
-    public static function randomEmote(): string
-    {
+    public static function randomEmote(): string {
         $constants = (new ReflectionClass(EmoteList::class))->getConstants(ReflectionClassConstant::IS_PUBLIC);
         return $constants[array_rand($constants)];
     }

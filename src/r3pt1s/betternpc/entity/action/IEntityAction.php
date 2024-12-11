@@ -1,11 +1,11 @@
 <?php
 
-namespace r3pt1s\betternpc\entity\dialogue\action;
+namespace r3pt1s\betternpc\entity\action;
 
 use pocketmine\player\Player;
 use r3pt1s\betternpc\entity\BetterEntity;
 
-interface IEntityDialogueButtonAction {
+interface IEntityAction {
 
     public function doAction(Player $player, BetterEntity $entity): void;
 

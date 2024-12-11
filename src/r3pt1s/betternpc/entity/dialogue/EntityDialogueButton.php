@@ -3,15 +3,15 @@
 namespace r3pt1s\betternpc\entity\dialogue;
 
 use pocketmine\player\Player;
+use r3pt1s\betternpc\entity\action\IEntityAction;
 use r3pt1s\betternpc\entity\BetterEntity;
-use r3pt1s\betternpc\entity\dialogue\action\IEntityDialogueButtonAction;
 
 final class EntityDialogueButton {
 
     public function __construct(
         private readonly string $id,
         private string $text,
-        private ?IEntityDialogueButtonAction $onClickAction
+        private ?IEntityAction $onClickAction
     ) {}
 
     public function onClick(Player $player, BetterEntity $entity): void {
@@ -30,11 +30,11 @@ final class EntityDialogueButton {
         $this->text = $text;
     }
 
-    public function getOnClickAction(): ?IEntityDialogueButtonAction {
+    public function getOnClickAction(): ?IEntityAction {
         return $this->onClickAction;
     }
 
-    public function setOnClickAction(?IEntityDialogueButtonAction $onClickAction): void {
+    public function setOnClickAction(?IEntityAction $onClickAction): void {
         $this->onClickAction = $onClickAction;
     }
 }

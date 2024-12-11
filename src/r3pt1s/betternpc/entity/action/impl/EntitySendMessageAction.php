@@ -1,13 +1,13 @@
 <?php
 
-namespace r3pt1s\betternpc\entity\dialogue\action\impl;
+namespace r3pt1s\betternpc\entity\action\impl;
 
 use pocketmine\player\Player;
+use r3pt1s\betternpc\entity\action\EntityActionIds;
+use r3pt1s\betternpc\entity\action\IEntityAction;
 use r3pt1s\betternpc\entity\BetterEntity;
-use r3pt1s\betternpc\entity\dialogue\action\EntityDialogueButtonActions;
-use r3pt1s\betternpc\entity\dialogue\action\IEntityDialogueButtonAction;
 
-final class EntityDialogueButtonSendMessageAction implements IEntityDialogueButtonAction {
+final class EntitySendMessageAction implements IEntityAction {
 
     public function __construct(private string $message) {}
 
@@ -28,7 +28,7 @@ final class EntityDialogueButtonSendMessageAction implements IEntityDialogueButt
     }
 
     public function getId(): int {
-        return EntityDialogueButtonActions::ACTION_SEND_MESSAGE;
+        return EntityActionIds::ACTION_SEND_MESSAGE;
     }
 
     public static function fromData(array $data): ?static {
