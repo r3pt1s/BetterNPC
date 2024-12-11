@@ -2,6 +2,7 @@
 
 namespace r3pt1s\betternpc\entity\trait;
 
+use pocketmine\entity\Human;
 use r3pt1s\betternpc\entity\list\EmoteList;
 
 trait EmoteTrait {
@@ -9,10 +10,12 @@ trait EmoteTrait {
     private bool $emotingEnabled = true;
     protected array $emotes = [];
 
-    public function doEmote(): void {
-        if ($this->emotingEnabled) {
-            $emote = empty($this->emotes) ? EmoteList::randomEmote() : $this->emotes[array_rand($this->emotes)];
-            //TODO: entity emote
+    public function doEmote(?string $emoteId = null): void {
+        if ($this->emotingEnabled && $this instanceof Human) {
+            $emote = $emoteId ?? (empty($this->emotes) ? EmoteList::randomEmote() : $this->emotes[array_rand($this->emotes)]);
+            foreach ($this->getViewers() as $viewer) {
+                $viewer->getNetworkSession()->getEntityEventBroadcaster()->onEmote([$viewer], $this, $emote);
+            }
         }
     }
 

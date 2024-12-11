@@ -10,7 +10,7 @@ trait CommandTrait {
 
     protected array $commands = [];
 
-    public function execute(?Player $player): void {
+    public function runCommands(?Player $player): void {
         if ($player === null) { //handled by server
             foreach ($this->commands as $command) Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), $command);
             return;
