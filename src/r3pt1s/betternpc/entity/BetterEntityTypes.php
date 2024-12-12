@@ -62,4 +62,8 @@ final class BetterEntityTypes {
     public static function check(string $id): bool {
         return isset(self::$classes[$id]);
     }
+
+    public static function checkClass(string $class): bool {
+        return in_array($class, self::$classes);
+    }
 }

@@ -21,7 +21,7 @@ final class BetterEntityData {
      * @param string $nameTag
      * @param string $scoreTag
      * @param float $scale
-     * @param IEntityAction|null $onHitAction
+     * @param IEntityAction|null $hitAction
      * @param array<EntityDialogue> $dialogues
      * @param SkinModel|null $skinModel
      */
@@ -30,7 +30,7 @@ final class BetterEntityData {
         private string $nameTag,
         private string $scoreTag,
         private float $scale,
-        private ?IEntityAction $onHitAction,
+        private ?IEntityAction $hitAction,
         private array $dialogues,
         private ?SkinModel $skinModel,
     ) {}
@@ -70,12 +70,12 @@ final class BetterEntityData {
         return $this->scale;
     }
 
-    public function setOnHitAction(?IEntityAction $onHitAction): void {
-        $this->onHitAction = $onHitAction;
+    public function setHitAction(?IEntityAction $hitAction): void {
+        $this->hitAction = $hitAction;
     }
 
-    public function getOnHitAction(): ?IEntityAction {
-        return $this->onHitAction;
+    public function getHitAction(): ?IEntityAction {
+        return $this->hitAction;
     }
 
     public function addDialogue(EntityDialogue $dialogue): void {
@@ -117,8 +117,8 @@ final class BetterEntityData {
             ->setString("nameTag", $this->nameTag)
             ->setString("scoreTag", $this->scoreTag)
             ->setFloat("scale", $this->scale)
-            ->setInt("hitActionId", $this->onHitAction?->getId() ?? -1)
-            ->setTag("hitAction", $this->onHitAction?->toNbt() ?? CompoundTag::create())
+            ->setInt("hitActionId", $this->hitAction?->getId() ?? -1)
+            ->setTag("hitAction", $this->hitAction?->toNbt() ?? CompoundTag::create())
             ->setTag("dialogues", $dialogues)
             ->setTag("skinModel", $this->skinModel?->toNbt() ?? CompoundTag::create());
     }

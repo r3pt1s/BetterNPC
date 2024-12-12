@@ -2,8 +2,12 @@
 
 namespace r3pt1s\betternpc\entity\dialogue;
 
+use cosmicpe\npcdialogue\NpcDialogueBuilder;
+use cosmicpe\npcdialogue\NpcDialogueManager;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\player\Player;
+use r3pt1s\betternpc\entity\BetterEntity;
 
 final class EntityDialogue {
 
@@ -17,6 +21,18 @@ final class EntityDialogue {
         private string $baseText,
         private array $buttons
     ) {}
+
+    public function sendTo(Player $player, BetterEntity $entity): void {
+        $builder = NpcDialogueBuilder::create()
+            ->setDefaultNpcTexture($entity->getEntity()->getId())
+            ->setText($this->baseText);
+
+        foreach ($this->buttons as $button) {
+            $builder->addSimpleButton($button->getText(), fn(Player $player) => $button->onClick($player, $entity));
+        }
+
+        NpcDialogueManager::send($player, $builder->build());
+    }
 
     public function getId(): string {
         return $this->id;

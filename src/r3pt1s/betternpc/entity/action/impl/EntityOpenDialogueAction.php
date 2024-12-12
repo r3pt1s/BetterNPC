@@ -15,7 +15,7 @@ final class EntityOpenDialogueAction implements IEntityAction {
 
     public function doAction(Player $player, BetterEntity $entity): void {
         if (($dialogue = $entity->getEntityData()->getDialogue($this->dialogueId)) !== null) {
-
+            $dialogue->sendTo($player, $entity);
         }
     }
 

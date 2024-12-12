@@ -2,6 +2,7 @@
 
 namespace r3pt1s\betternpc\entity;
 
+use pocketmine\entity\Entity;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
@@ -11,6 +12,8 @@ use r3pt1s\betternpc\entity\data\BetterEntityData;
 interface BetterEntity {
 
     public function __construct(BetterEntityData $entityData, Location $location, ?CompoundTag $nbt = null);
+
+    public function onHit(Player $player);
 
     public function runCommands(?Player $player): void;
 
@@ -49,6 +52,8 @@ interface BetterEntity {
     public function getAnimations(): array;
 
     public function getEntityData(): BetterEntityData;
+
+    public function getEntity(): Entity;
 
     public function isCompatible(BetterEntityData $entityData): bool;
 }

@@ -15,11 +15,11 @@ final class EntityDialogueButton {
     public function __construct(
         private readonly string $id,
         private string $text,
-        private ?IEntityAction $onClickAction
+        private ?IEntityAction $clickAction
     ) {}
 
     public function onClick(Player $player, BetterEntity $entity): void {
-        $this->onClickAction?->doAction($player, $entity);
+        $this->clickAction?->doAction($player, $entity);
     }
 
     public function getId(): string {
@@ -34,20 +34,20 @@ final class EntityDialogueButton {
         $this->text = $text;
     }
 
-    public function getOnClickAction(): ?IEntityAction {
-        return $this->onClickAction;
+    public function getClickAction(): ?IEntityAction {
+        return $this->clickAction;
     }
 
-    public function setOnClickAction(?IEntityAction $onClickAction): void {
-        $this->onClickAction = $onClickAction;
+    public function setClickAction(?IEntityAction $clickAction): void {
+        $this->clickAction = $clickAction;
     }
 
     public function toNbt(): CompoundTag {
         return CompoundTag::create()
             ->setString("id", $this->id)
             ->setString("text", $this->text)
-            ->setInt("clickActionId", $this->onClickAction?->getId() ?? -1)
-            ->setTag("clickAction", $this->onClickAction?->toNbt() ?? CompoundTag::create());
+            ->setInt("clickActionId", $this->clickAction?->getId() ?? -1)
+            ->setTag("clickAction", $this->clickAction?->toNbt() ?? CompoundTag::create());
     }
 
     public static function fromNbt(CompoundTag $nbt): ?EntityDialogueButton {
