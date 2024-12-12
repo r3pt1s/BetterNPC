@@ -2,7 +2,15 @@
 
 namespace r3pt1s\betternpc\entity;
 
+use pocketmine\data\SavedDataLoadingException;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\world\World;
+use r3pt1s\betternpc\entity\data\BetterEntityData;
 use r3pt1s\betternpc\entity\impl\BetterHuman;
+use r3pt1s\betternpc\entity\impl\BetterVillager;
+use r3pt1s\betternpc\entity\impl\BetterZombie;
 
 final class BetterEntityTypes {
 
@@ -14,6 +22,28 @@ final class BetterEntityTypes {
 
     public static function init(): void {
         self::register(BetterEntityTypes::TYPE_HUMAN, BetterHuman::class);
+        self::register(BetterEntityTypes::TYPE_VILLAGER, BetterVillager::class);
+        self::register(BetterEntityTypes::TYPE_ZOMBIE, BetterZombie::class);
+
+        EntityFactory::getInstance()->register(BetterHuman::class, function (World $world, CompoundTag $nbt): BetterHuman {
+            return new BetterHuman(self::parseEntityData($nbt), EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, [self::TYPE_HUMAN]);
+
+        EntityFactory::getInstance()->register(BetterVillager::class, function (World $world, CompoundTag $nbt): BetterVillager {
+            return new BetterVillager(self::parseEntityData($nbt), EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, [self::TYPE_HUMAN]);
+
+        EntityFactory::getInstance()->register(BetterZombie::class, function (World $world, CompoundTag $nbt): BetterZombie {
+            return new BetterZombie(self::parseEntityData($nbt), EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, [self::TYPE_HUMAN]);
+    }
+
+    private static function parseEntityData(CompoundTag $nbt): BetterEntityData {
+        if ($nbt->getTag("entityData") instanceof CompoundTag) {
+            if (($data = BetterEntityData::fromNbt($nbt->getCompoundTag("entityData"))) === null) throw new SavedDataLoadingException("Failed to parse entity data, the entity data provided is broken");
+            return $data;
+        }
+        throw new SavedDataLoadingException("Failed to parse entity data, the tag 'entityData' either does not exist or is not a compoundTag");
     }
 
     public static function register(string $id, string $class): void {

@@ -3,6 +3,8 @@
 namespace r3pt1s\betternpc\entity\model;
 
 use pocketmine\entity\Skin;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\StringTag;
 
 final readonly class SkinModel {
 
@@ -69,5 +71,21 @@ final readonly class SkinModel {
 
     public function getDirectoryPath(): string {
         return $this->directoryPath;
+    }
+
+    public function toNbt(): CompoundTag {
+        return CompoundTag::create()
+            ->setString("id", $this->id)
+            ->setString("directoryPath", $this->directoryPath);
+    }
+
+    public static function fromNbt(CompoundTag $nbt): ?SkinModel {
+        if (
+            $nbt->getTag("id") instanceof StringTag &&
+            $nbt->getTag("directoryPath") instanceof StringTag
+        ) {
+            return new self($nbt->getString("id"), $nbt->getString("directoryPath"));
+        }
+        return null;
     }
 }

@@ -2,10 +2,12 @@
 
 namespace r3pt1s\betternpc\entity\action\impl;
 
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\entity\action\EntityActionIds;
 use r3pt1s\betternpc\entity\action\IEntityAction;
 use r3pt1s\betternpc\entity\BetterEntity;
+use pocketmine\nbt\tag\CompoundTag;
 
 final class EntitySendMessageAction implements IEntityAction {
 
@@ -23,15 +25,19 @@ final class EntitySendMessageAction implements IEntityAction {
         return $this->message;
     }
 
-    public function getData(): array {
-        return ["message" => $this->message];
-    }
-
     public function getId(): int {
         return EntityActionIds::ACTION_SEND_MESSAGE;
     }
 
-    public static function fromData(array $data): ?static {
+    public function toNbt(): CompoundTag {
+        return CompoundTag::create()
+            ->setString("message", $this->message);
+    }
+
+    public static function fromNbt(CompoundTag $nbt): ?EntitySendMessageAction {
+        if ($nbt->getTag("message") instanceof StringTag) {
+            return new self($nbt->getString("message"));
+        }
         return null;
     }
 }

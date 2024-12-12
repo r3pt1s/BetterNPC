@@ -2,6 +2,10 @@
 
 namespace r3pt1s\betternpc\entity\animation;
 
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\mcpe\protocol\AnimateEntityPacket;
 use r3pt1s\betternpc\entity\BetterEntity;
 
@@ -74,5 +78,36 @@ final class EntityAnimation {
 
     public function setBlendOutTime(float $blendOutTime): void {
         $this->blendOutTime = $blendOutTime;
+    }
+
+    public function toNbt(): CompoundTag {
+        return CompoundTag::create()
+            ->setString("animation", $this->animation)
+            ->setString("nextState", $this->nextState)
+            ->setString("stopExpression", $this->stopExpression)
+            ->setInt("stopExpressionVersion", $this->stopExpressionVersion)
+            ->setString("controller", $this->controller)
+            ->setFloat("blendOutTime", $this->blendOutTime);
+    }
+
+    public static function fromNbt(CompoundTag $nbt): ?EntityAnimation {
+        if (
+            $nbt->getTag("animation") instanceof StringTag &&
+            $nbt->getTag("nextState") instanceof StringTag &&
+            $nbt->getTag("stopExpression") instanceof StringTag &&
+            $nbt->getTag("stopExpressionVersion") instanceof IntTag &&
+            $nbt->getTag("controller") instanceof StringTag &&
+            $nbt->getTag("blendOutTime") instanceof FloatTag
+        ) {
+            return new self(
+                $nbt->getString("animation"),
+                $nbt->getString("nextState"),
+                $nbt->getString("stopExpression"),
+                $nbt->getInt("stopExpressionVersion"),
+                $nbt->getString("controller"),
+                $nbt->getFloat("blendOutTime")
+            );
+        }
+        return null;
     }
 }

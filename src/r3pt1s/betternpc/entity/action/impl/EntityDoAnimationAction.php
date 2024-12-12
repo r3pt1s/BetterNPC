@@ -2,10 +2,12 @@
 
 namespace r3pt1s\betternpc\entity\action\impl;
 
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\entity\action\EntityActionIds;
 use r3pt1s\betternpc\entity\action\IEntityAction;
 use r3pt1s\betternpc\entity\BetterEntity;
+use pocketmine\nbt\tag\CompoundTag;
 
 final class EntityDoAnimationAction implements IEntityAction {
 
@@ -23,15 +25,19 @@ final class EntityDoAnimationAction implements IEntityAction {
         return $this->animation;
     }
 
-    public function getData(): array {
-        return ["animation" => $this->animation];
-    }
-
     public function getId(): int {
         return EntityActionIds::ACTION_SEND_MESSAGE;
     }
 
-    public static function fromData(array $data): ?static {
+    public function toNbt(): CompoundTag {
+        return CompoundTag::create()
+            ->setString("animation", $this->animation);
+    }
+
+    public static function fromNbt(CompoundTag $nbt): ?EntityDoAnimationAction {
+        if ($nbt->getTag("animation") instanceof StringTag) {
+            return new self($nbt->getString("animation"));
+        }
         return null;
     }
 }
