@@ -42,6 +42,6 @@ final class BetterVillager extends Villager implements BetterEntity {
     }
 
     public function isCompatible(BetterEntityData $entityData): bool {
-        return $entityData->getSkinModel()?->isValid() ?? false;
+        return true;
     }
 }
