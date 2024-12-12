@@ -2,12 +2,30 @@
 
 namespace r3pt1s\betternpc\entity\model;
 
+use pocketmine\entity\Skin;
+
 final readonly class SkinModel {
 
     public function __construct(
         private string $id,
         private string $directoryPath
     ) {}
+
+    public function buildSkin(): ?Skin {
+        $skinId = $this->getSkinId();
+        $skinData = $this->getSkinData();
+        if ($skinId === null || $skinData === null) return null;
+        try {
+            return new Skin(
+                $skinId,
+                $skinData,
+                $this->getCapeData() ?? "",
+                $this->getGeoName() ?? "",
+                $this->getGeoData() ?? ""
+            );
+        } catch (\JsonException) {}
+        return null;
+    }
 
     public function getSkinId(): ?string {
         if (!$this->isValid()) return null;
