@@ -6,23 +6,20 @@ use CortexPE\Commando\BaseCommand;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use r3pt1s\betternpc\entity\action\impl\EntityDoEmoteAction;
-use r3pt1s\betternpc\entity\BetterEntityTypes;
-use r3pt1s\betternpc\entity\data\BetterEntityData;
-use r3pt1s\betternpc\entity\list\EmoteList;
-use r3pt1s\betternpc\entity\model\SkinModel;
+use r3pt1s\betternpc\command\sub\EntityCreateSubCommand;
 use r3pt1s\betternpc\Main;
 
 final class EntityMainCommand extends BaseCommand {
 
     public function __construct() {
-        parent::__construct(Main::getInstance(), "betternpc", "BetterNPC Main Command");
+        parent::__construct(Main::getInstance(), "betternpc", "BetterNPC Main Command", ["npc"]);
     }
 
     protected function prepare(): void {
         $this->setPermission("betternpc.command");
         $this->addConstraint(new InGameRequiredConstraint($this));
 
+        $this->registerSubCommand(new EntityCreateSubCommand());
     }
 
     /**
@@ -32,14 +29,9 @@ final class EntityMainCommand extends BaseCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        $entity = BetterEntityData::create(
-            BetterEntityTypes::TYPE_HUMAN,
-            "BetterNPC (Human)",
-            "join lydoxmc.net",
-            2.0,
-            EntityDoEmoteAction::create(EmoteList::randomEmote()),
-            SkinModel::fromSkin("skinmode.first", $sender->getSkin())
-        );
-        $entity->buildEntity($sender->getLocation())->spawnToAll();
+        $sender->sendMessage(Main::PREFIX . "§c/betternpc create §8- §7Create an entity");
+        $sender->sendMessage(Main::PREFIX . "§c/betternpc remove §8- §7Remove an entity");
+        $sender->sendMessage(Main::PREFIX . "§c/betternpc list §8- §7List the created entities");
+        $sender->sendMessage(Main::PREFIX . "§c/betternpc edit §8- §7Edit an entity");
     }
 }

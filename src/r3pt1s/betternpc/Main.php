@@ -2,6 +2,7 @@
 
 namespace r3pt1s\betternpc;
 
+use CortexPE\Commando\PacketHooker;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 use r3pt1s\betternpc\command\EntityMainCommand;
@@ -11,6 +12,8 @@ use r3pt1s\betternpc\listener\EventListener;
 class Main extends PluginBase {
     use SingletonTrait;
 
+    public const PREFIX = "§6§lBetterNPC §r§8» §8";
+
     protected function onLoad(): void {
         self::setInstance($this);
     }
@@ -19,6 +22,8 @@ class Main extends PluginBase {
         BetterEntityTypes::init();
 
         if (!file_exists($this->getDataFolder() . "skins/")) mkdir($this->getDataFolder() . "skins/");
+
+        PacketHooker::register($this);
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
         $this->getServer()->getCommandMap()->register("betterNPc", new EntityMainCommand());

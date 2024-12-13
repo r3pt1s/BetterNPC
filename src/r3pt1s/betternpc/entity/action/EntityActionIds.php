@@ -24,4 +24,14 @@ final class EntityActionIds {
             default => null
         };
     }
+
+    public static function fromIdData(int $id, mixed ...$args): ?IEntityAction {
+        return match ($id) {
+            self::ACTION_RUN_COMMAND => EntityRunCommandAction::create(...$args),
+            self::ACTION_DO_EMOTE => EntityDoEmoteAction::create(...$args),
+            self::ACTION_DO_ANIMATION => EntityDoAnimationAction::create(...$args),
+            self::ACTION_SEND_MESSAGE => EntitySendMessageAction::create(...$args),
+            default => null
+        };
+    }
 }
