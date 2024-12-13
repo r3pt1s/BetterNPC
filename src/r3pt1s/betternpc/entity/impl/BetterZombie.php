@@ -39,6 +39,16 @@ final class BetterZombie extends Zombie implements BetterEntity {
         $this->entityData->setScale($value);
     }
 
+    public function setNameTagAlwaysVisible(bool $value = true): void {
+        parent::setNameTagAlwaysVisible($value);
+        $this->entityData->getSettings()->setNameTagAlwaysVisible($value);
+    }
+
+    protected function entityBaseTick(int $tickDiff = 1): bool {
+        $this->emoteTick();
+        return parent::entityBaseTick($tickDiff);
+    }
+
     public function saveNBT(): CompoundTag {
         $nbt = parent::saveNBT();
         $nbt->setTag("entityData", $this->entityData->toNbt());
