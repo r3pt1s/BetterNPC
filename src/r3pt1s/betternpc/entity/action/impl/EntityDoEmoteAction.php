@@ -40,4 +40,8 @@ final class EntityDoEmoteAction implements IEntityAction {
         }
         return null;
     }
+
+    public static function create(string $emoteId): self {
+        return new self($emoteId);
+    }
 }

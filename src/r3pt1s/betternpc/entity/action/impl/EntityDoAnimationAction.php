@@ -40,4 +40,8 @@ final class EntityDoAnimationAction implements IEntityAction {
         }
         return null;
     }
+
+    public static function create(string $animation): self {
+        return new self($animation);
+    }
 }

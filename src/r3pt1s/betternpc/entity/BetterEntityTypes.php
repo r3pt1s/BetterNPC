@@ -31,11 +31,11 @@ final class BetterEntityTypes {
 
         EntityFactory::getInstance()->register(BetterVillager::class, function (World $world, CompoundTag $nbt): BetterVillager {
             return new BetterVillager(self::parseEntityData($nbt), EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, [self::TYPE_HUMAN]);
+        }, [self::TYPE_VILLAGER]);
 
         EntityFactory::getInstance()->register(BetterZombie::class, function (World $world, CompoundTag $nbt): BetterZombie {
             return new BetterZombie(self::parseEntityData($nbt), EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, [self::TYPE_HUMAN]);
+        }, [self::TYPE_ZOMBIE]);
     }
 
     private static function parseEntityData(CompoundTag $nbt): BetterEntityData {

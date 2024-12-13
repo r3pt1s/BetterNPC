@@ -14,7 +14,7 @@ trait EmoteTrait {
         if ($this->emotingEnabled && $this instanceof Human) {
             $emote = $emoteId ?? (empty($this->emotes) ? EmoteList::randomEmote() : $this->emotes[array_rand($this->emotes)]);
             foreach ($this->getViewers() as $viewer) {
-                $viewer->getNetworkSession()->getEntityEventBroadcaster()->onEmote([$viewer], $this, $emote);
+                $viewer->getNetworkSession()->getEntityEventBroadcaster()->onEmote([$viewer->getNetworkSession()], $this, $emote);
             }
         }
     }

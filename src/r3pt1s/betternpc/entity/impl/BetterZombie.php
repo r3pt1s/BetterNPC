@@ -18,6 +18,10 @@ final class BetterZombie extends Zombie implements BetterEntity {
     public function __construct(BetterEntityData $entityData, Location $location, ?CompoundTag $nbt = null) {
         $this->entityData = $entityData;
         parent::__construct($location, $nbt);
+        $this->setNameTag($this->entityData->getNameTag());
+        $this->setScoreTag($this->entityData->getScoreTag());
+        $this->setScale($this->entityData->getScale());
+        $this->setNameTagAlwaysVisible();
     }
 
     public function setNameTag(string $name): void {
@@ -41,7 +45,7 @@ final class BetterZombie extends Zombie implements BetterEntity {
         return $nbt;
     }
 
-    public function isCompatible(BetterEntityData $entityData): bool {
+    public static function isCompatible(BetterEntityData $entityData): bool {
         return true;
     }
 }

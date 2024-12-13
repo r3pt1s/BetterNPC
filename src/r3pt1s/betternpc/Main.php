@@ -2,9 +2,9 @@
 
 namespace r3pt1s\betternpc;
 
-use cosmicpe\npcdialogue\NpcDialogueManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
+use r3pt1s\betternpc\command\EntityMainCommand;
 use r3pt1s\betternpc\entity\BetterEntityTypes;
 use r3pt1s\betternpc\listener\EventListener;
 
@@ -18,7 +18,13 @@ class Main extends PluginBase {
     protected function onEnable(): void {
         BetterEntityTypes::init();
 
-        NpcDialogueManager::register($this);
+        if (!file_exists($this->getDataFolder() . "skins/")) mkdir($this->getDataFolder() . "skins/");
+
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
+        $this->getServer()->getCommandMap()->register("betterNPc", new EntityMainCommand());
+    }
+
+    public function getSkinsPath(): string {
+        return $this->getDataFolder() . "skins/";
     }
 }

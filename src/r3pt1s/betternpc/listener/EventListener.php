@@ -21,6 +21,7 @@ final class EventListener implements Listener {
         $player = $event->getDamager();
 
         if ($player instanceof Player && BetterEntityTypes::checkClass($entity::class)) {
+            $event->cancel();
             if (!$this->checkCoolDown($player)) {
                 $this->internalHitCoolDowns[$player->getName()] = Server::getInstance()->getTick() + 10;
                 $entity->onHit($player);
@@ -30,7 +31,7 @@ final class EventListener implements Listener {
 
     private function checkCoolDown(Player $player): bool {
         if (isset($this->internalHitCoolDowns[$player->getName()])) {
-            if (Server::getInstance()->getTick() > $this->internalHitCoolDowns[$player->getName()]) {
+            if (Server::getInstance()->getTick() < $this->internalHitCoolDowns[$player->getName()]) {
                 return true;
             }
 

@@ -40,4 +40,8 @@ final class EntitySendMessageAction implements IEntityAction {
         }
         return null;
     }
+
+    public static function create(string $message): self {
+        return new self($message);
+    }
 }

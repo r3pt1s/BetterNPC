@@ -40,4 +40,8 @@ final class EntityRunCommandAction implements IEntityAction {
         }
         return null;
     }
+
+    public static function create(string $command): self {
+        return new self($command);
+    }
 }

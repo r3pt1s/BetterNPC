@@ -55,5 +55,5 @@ interface BetterEntity {
 
     public function getEntity(): Entity;
 
-    public function isCompatible(BetterEntityData $entityData): bool;
+    public static function isCompatible(BetterEntityData $entityData): bool;
 }
