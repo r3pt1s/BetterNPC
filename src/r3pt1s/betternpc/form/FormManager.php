@@ -8,10 +8,12 @@ use dktapps\pmforms\element\Dropdown;
 use dktapps\pmforms\element\Input;
 use dktapps\pmforms\element\Label;
 use dktapps\pmforms\element\Slider;
+use dktapps\pmforms\element\Toggle;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\entity\action\EntityActionIds;
 use r3pt1s\betternpc\entity\BetterEntityTypes;
 use r3pt1s\betternpc\entity\data\BetterEntityData;
+use r3pt1s\betternpc\entity\data\BetterEntitySettings;
 use r3pt1s\betternpc\entity\model\SkinModel;
 use r3pt1s\betternpc\Main;
 
@@ -25,7 +27,9 @@ final class FormManager {
                 new Input("nameTag", "Please set the nameTag", "You are cool!", ""),
                 new Input("scoreTag", "You can provide a scoreTag"),
                 new Slider("scale", "Please select the size of the entity", 0.5, 2, 0.1, 1),
-                new Dropdown("hitAction", "What should happen if you hit the entity?", ["RUN_COMMAND", "DO_EMOTE", "DO_ANIMATION", "SEND_MESSAGE", "NOTHING"], 4)
+                new Dropdown("hitAction", "What should happen if you hit the entity?", ["RUN_COMMAND", "DO_EMOTE", "DO_ANIMATION", "SEND_MESSAGE", "NOTHING"], 4,),
+                new Toggle("nameTagAlwaysVisible", "Should the nameTag always be visible?", true),
+                new Toggle("lookToPlayers", "Should the entity look to players?")
             ],
             function (Player $player, CustomFormResponse $response): void {
                 $type = BetterEntityTypes::getAll()[$response->getInt("type")];
@@ -33,6 +37,8 @@ final class FormManager {
                 $scoreTag = trim($response->getString("scoreTag"));
                 $scale = $response->getFloat("scale");
                 $hitAction = $response->getInt("hitAction");
+                $nameTagAlwaysVisible = $response->getBool("nameTagAlwaysVisible");
+                $lookToPlayers = $response->getBool("lookToPlayers");
 
                 if ($hitAction == 4) {
                     $data = BetterEntityData::create(
@@ -40,17 +46,18 @@ final class FormManager {
                         $nameTag,
                         $scoreTag,
                         $scale,
+                        BetterEntitySettings::create($nameTagAlwaysVisible, $lookToPlayers),
                         null,
                         $type == BetterEntityTypes::TYPE_HUMAN ? SkinModel::fromSkin($player->getName(), $player->getSkin()) : null
                     );
 
                     $data->buildEntity($player->getLocation())->spawnToAll();
-                } else $player->sendForm(self::createEntityHitActionForm($type, $nameTag, $scoreTag, $scale, $hitAction));
+                } else $player->sendForm(self::createEntityHitActionForm($type, $nameTag, $scoreTag, $scale, $nameTagAlwaysVisible, $lookToPlayers, $hitAction));
             }
         );
     }
 
-    public static function createEntityHitActionForm(string $type, string $nameTag, string $scoreTag, float $scale, int $id): CustomForm {
+    public static function createEntityHitActionForm(string $type, string $nameTag, string $scoreTag, float $scale, bool $nameTagAlwaysVisible, bool $lookToPlayers, int $id): CustomForm {
         return new CustomForm(
             "Create a entity",
             match ($id) {
@@ -60,13 +67,15 @@ final class FormManager {
                 EntityActionIds::ACTION_SEND_MESSAGE => [new Input("actionData", "Please provide a message!")],
                 default => [new Label("text", "§cSomething went wrong, entity action was not recognized...")]
             },
-            function (Player $player, CustomFormResponse $response) use($type, $nameTag, $scoreTag, $scale, $id): void {
+            function (Player $player, CustomFormResponse $response) use($type, $nameTag, $scoreTag, $scale, $nameTagAlwaysVisible, $lookToPlayers, $id): void {
+                if (!EntityActionIds::check($id)) return;
                 $actionData = EntityActionIds::fromIdData($id, $response->getString("actionData"));
                 $data = BetterEntityData::create(
                     $type,
                     $nameTag,
                     $scoreTag,
                     $scale,
+                    BetterEntitySettings::create($nameTagAlwaysVisible, $lookToPlayers),
                     $actionData,
                     $type == BetterEntityTypes::TYPE_HUMAN ? SkinModel::fromSkin($player->getName(), $player->getSkin()) : null
                 );

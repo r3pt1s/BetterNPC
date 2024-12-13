@@ -29,6 +29,7 @@ final class BetterEntityData {
         private string $nameTag,
         private string $scoreTag,
         private float $scale,
+        private readonly BetterEntitySettings $settings,
         private ?IEntityAction $hitAction,
         private ?SkinModel $skinModel
     ) {}
@@ -73,6 +74,10 @@ final class BetterEntityData {
         return $this->scale;
     }
 
+    public function getSettings(): BetterEntitySettings {
+        return $this->settings;
+    }
+
     public function setHitAction(?IEntityAction $hitAction): void {
         $this->hitAction = $hitAction;
     }
@@ -95,6 +100,7 @@ final class BetterEntityData {
             ->setString("nameTag", $this->nameTag)
             ->setString("scoreTag", $this->scoreTag)
             ->setFloat("scale", $this->scale)
+            ->setTag("settings", $this->settings->toNbt())
             ->setInt("hitActionId", $this->hitAction?->getId() ?? -1)
             ->setTag("hitAction", $this->hitAction?->toNbt() ?? CompoundTag::create())
             ->setTag("skinModel", $this->skinModel?->toNbt() ?? CompoundTag::create());
@@ -106,10 +112,12 @@ final class BetterEntityData {
             $nbt->getTag("nameTag") instanceof StringTag &&
             $nbt->getTag("scoreTag") instanceof StringTag &&
             $nbt->getTag("scale") instanceof FloatTag &&
+            $nbt->getTag("settings") instanceof CompoundTag &&
             $nbt->getTag("hitActionId") instanceof IntTag &&
             $nbt->getTag("hitAction") instanceof CompoundTag &&
             $nbt->getTag("skinModel") instanceof CompoundTag
         ) {
+            $settings = BetterEntitySettings::fromNbt($nbt->getCompoundTag("settings"));
             $hitAction = EntityActionIds::fromId($nbt->getInt("hitActionId"), $nbt->getCompoundTag("hitAction"));
             $skinModel = SkinModel::fromNbt($nbt->getCompoundTag("skinModel"));
 
@@ -118,6 +126,7 @@ final class BetterEntityData {
                 $nbt->getString("nameTag"),
                 $nbt->getString("scoreTag"),
                 $nbt->getFloat("scale"),
+                $settings,
                 $hitAction,
                 $skinModel
             );
@@ -130,9 +139,10 @@ final class BetterEntityData {
         string $nameTag,
         string $scoreTag,
         float $scale,
+        BetterEntitySettings $settings,
         ?IEntityAction $hitAction,
         ?SkinModel $skinModel
     ): self {
-        return new self($type, $nameTag, $scoreTag, $scale, $hitAction, $skinModel);
+        return new self($type, $nameTag, $scoreTag, $scale, $settings, $hitAction, $skinModel);
     }
 }

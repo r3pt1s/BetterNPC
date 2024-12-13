@@ -34,4 +34,8 @@ final class EntityActionIds {
             default => null
         };
     }
+
+    public static function check(int $id): bool {
+        return $id >= 0 && $id <= 3;
+    }
 }

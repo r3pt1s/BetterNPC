@@ -12,7 +12,7 @@ use r3pt1s\betternpc\listener\EventListener;
 class Main extends PluginBase {
     use SingletonTrait;
 
-    public const PREFIX = "§6§lBetterNPC §r§8» §8";
+    public const PREFIX = "§6§lBetterNPC §r§8» §7";
 
     protected function onLoad(): void {
         self::setInstance($this);

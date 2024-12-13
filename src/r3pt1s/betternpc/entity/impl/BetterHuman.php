@@ -21,7 +21,7 @@ final class BetterHuman extends Human implements BetterEntity {
         $this->setNameTag($this->entityData->getNameTag());
         $this->setScoreTag($this->entityData->getScoreTag());
         $this->setScale($this->entityData->getScale());
-        $this->setNameTagAlwaysVisible();
+        $this->setNameTagAlwaysVisible($this->entityData->getSettings()->isNameTagAlwaysVisible());
     }
 
     public function setNameTag(string $name): void {
@@ -37,6 +37,11 @@ final class BetterHuman extends Human implements BetterEntity {
     public function setScale(float $value): void {
         parent::setScale($value);
         $this->entityData->setScale($value);
+    }
+
+    public function setNameTagAlwaysVisible(bool $value = true): void {
+        parent::setNameTagAlwaysVisible($value);
+        $this->entityData->getSettings()->setNameTagAlwaysVisible($value);
     }
 
     public function saveNBT(): CompoundTag {

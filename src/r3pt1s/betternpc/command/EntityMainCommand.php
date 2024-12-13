@@ -7,6 +7,7 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\command\sub\EntityCreateSubCommand;
+use r3pt1s\betternpc\command\sub\EntityRemoveSubCommand;
 use r3pt1s\betternpc\Main;
 
 final class EntityMainCommand extends BaseCommand {
@@ -20,6 +21,7 @@ final class EntityMainCommand extends BaseCommand {
         $this->addConstraint(new InGameRequiredConstraint($this));
 
         $this->registerSubCommand(new EntityCreateSubCommand());
+        $this->registerSubCommand(new EntityRemoveSubCommand());
     }
 
     /**
