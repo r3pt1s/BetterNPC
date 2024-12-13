@@ -9,7 +9,8 @@ final class BetterEntitySettings {
 
     public function __construct(
         private bool $nameTagAlwaysVisible,
-        private bool $lookToPlayers
+        private bool $lookToPlayers,
+        private bool $doRandomEmotes
     ) {}
 
     public function isNameTagAlwaysVisible(): bool {
@@ -28,23 +29,33 @@ final class BetterEntitySettings {
         $this->lookToPlayers = $lookToPlayers;
     }
 
+    public function isDoRandomEmotes(): bool {
+        return $this->doRandomEmotes;
+    }
+
+    public function setDoRandomEmotes(bool $doRandomEmotes): void {
+        $this->doRandomEmotes = $doRandomEmotes;
+    }
+
     public function toNbt(): CompoundTag {
         return CompoundTag::create()
             ->setByte("nameTagAlwaysVisible", $this->nameTagAlwaysVisible)
-            ->setByte("lookToPlayers", $this->lookToPlayers);
+            ->setByte("lookToPlayers", $this->lookToPlayers)
+            ->setByte("doRandomEmotes", $this->doRandomEmotes);
     }
 
     public static function fromNbt(CompoundTag $nbt): ?BetterEntitySettings {
         if (
             $nbt->getTag("nameTagAlwaysVisible") instanceof ByteTag &&
-            $nbt->getTag("lookToPlayers") instanceof ByteTag
+            $nbt->getTag("lookToPlayers") instanceof ByteTag &&
+            $nbt->getTag("doRandomEmotes") instanceof ByteTag
         ) {
-            return new BetterEntitySettings((bool) $nbt->getByte("nameTagAlwaysVisible"), (bool) $nbt->getByte("lookToPlayers"));
+            return new BetterEntitySettings((bool) $nbt->getByte("nameTagAlwaysVisible"), (bool) $nbt->getByte("lookToPlayers"), (bool) $nbt->getByte("doRandomEmotes"));
         }
         return null;
     }
 
-    public static function create(bool $nameTagAlwaysVisible, bool $lookToPlayers): self {
-        return new self($nameTagAlwaysVisible, $lookToPlayers);
+    public static function create(bool $nameTagAlwaysVisible, bool $lookToPlayers, bool $doRandomEmotes): self {
+        return new self($nameTagAlwaysVisible, $lookToPlayers, $doRandomEmotes);
     }
 }
