@@ -6,3 +6,5 @@ author: r3pt1s
 permissions:
   betternpc.command:
     default: op
+  betternpc.edit:
+    default: op
