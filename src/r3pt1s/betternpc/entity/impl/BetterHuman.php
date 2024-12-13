@@ -44,9 +44,9 @@ final class BetterHuman extends Human implements BetterEntity {
         $this->entityData->getSettings()->setNameTagAlwaysVisible($value);
     }
 
-    protected function entityBaseTick(int $tickDiff = 1): bool {
+    public function onUpdate(int $currentTick): bool {
         $this->emoteTick();
-        return parent::entityBaseTick($tickDiff);
+        return parent::onUpdate($currentTick);
     }
 
     public function saveNBT(): CompoundTag {
