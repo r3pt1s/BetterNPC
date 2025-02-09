@@ -2,8 +2,6 @@
 
 namespace r3pt1s\betternpc;
 
-use CortexPE\Commando\exception\HookAlreadyRegistered;
-use CortexPE\Commando\PacketHooker;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
 use r3pt1s\betternpc\command\EntityMainCommand;
@@ -30,13 +28,8 @@ class Main extends PluginBase {
 
         if (!file_exists($this->getDataFolder() . "skins/")) mkdir($this->getDataFolder() . "skins/");
 
-        try {
-            PacketHooker::register($this);
-            $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
-            $this->getServer()->getCommandMap()->register("betterNPC", new EntityMainCommand());
-        } catch (HookAlreadyRegistered $e) {
-            $this->getLogger()->logException($e);
-        }
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
+        $this->getServer()->getCommandMap()->register("betterNPC", new EntityMainCommand());
     }
 
     public function getSkinsPath(): string {
