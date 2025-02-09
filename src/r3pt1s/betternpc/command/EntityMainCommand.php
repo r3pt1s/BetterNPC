@@ -15,6 +15,7 @@ final class EntityMainCommand extends Command {
 
     public function __construct() {
         parent::__construct("betternpc", "BetterNPC Main Command", "/betternpc", ["npc"]);
+        $this->setPermission("betternpc.command");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
