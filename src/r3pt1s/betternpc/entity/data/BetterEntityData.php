@@ -13,6 +13,7 @@ use r3pt1s\betternpc\entity\action\IEntityAction;
 use r3pt1s\betternpc\entity\BetterEntity;
 use r3pt1s\betternpc\entity\BetterEntityTypes;
 use r3pt1s\betternpc\entity\model\SkinModel;
+use r3pt1s\betternpc\Main;
 
 final class BetterEntityData {
 
@@ -21,6 +22,7 @@ final class BetterEntityData {
      * @param string $nameTag
      * @param string $scoreTag
      * @param float $scale
+     * @param BetterEntitySettings $settings
      * @param IEntityAction|null $hitAction
      * @param SkinModel|null $skinModel
      */
@@ -119,6 +121,15 @@ final class BetterEntityData {
         ) {
             $settings = BetterEntitySettings::fromNbt($nbt->getCompoundTag("settings"));
             $hitAction = EntityActionIds::fromId($nbt->getInt("hitActionId"), $nbt->getCompoundTag("hitAction"));
+            if ($hitAction === null && ($hitActionId = $nbt->getInt("hitActionId")) >= 0) {
+                Main::getInstance()->getLogger()->warning("Failed to load hit action with id '$hitActionId' (" . match ($hitActionId) {
+                        EntityActionIds::ACTION_RUN_COMMAND => "RUN_COMMAND",
+                        EntityActionIds::ACTION_DO_EMOTE => "DO_EMOTE",
+                        EntityActionIds::ACTION_SEND_MESSAGE => "SEND_MESSAGE",
+                        default => "UNKNOWN"
+                } . ": Invalid 'hitAction' tag provided");
+            }
+
             $skinModel = SkinModel::fromNbt($nbt->getCompoundTag("skinModel"));
 
             return new self(

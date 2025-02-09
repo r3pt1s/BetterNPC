@@ -31,7 +31,8 @@ final class EntityListSubCommand extends BaseSubCommand {
             $sender->sendMessage(Main::PREFIX . "EntityId: §e" . $entity->getId() . " §8(§b" . basename($entity::class) . "§8) - §7Location: §e" .
                 $entity->getPosition()->getFloorX() . "§8:§e" .
                 $entity->getPosition()->getFloorY() . "§8:§e" .
-                $entity->getPosition()->getFloorZ()
+                $entity->getPosition()->getFloorZ() . "§8:§e" .
+                $entity->getPosition()->getWorld()->getFolderName()
             );
         }
     }

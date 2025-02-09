@@ -4,7 +4,7 @@ namespace r3pt1s\betternpc\command\sub;
 
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\BaseSubCommand;
-use CortexPE\Commando\constraint\InGameRequiredConstraint;
+use CortexPE\Commando\exception\ArgumentOrderException;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -19,7 +19,11 @@ final class EntityRemoveSubCommand extends BaseSubCommand {
     }
 
     protected function prepare(): void {
-        $this->registerArgument(0, new IntegerArgument("id", true));
+        try {
+            $this->registerArgument(0, new IntegerArgument("entityId", true));
+        } catch (ArgumentOrderException $e) {
+            Main::getInstance()->getLogger()->logException($e);
+        }
     }
 
     /**
@@ -29,9 +33,9 @@ final class EntityRemoveSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        $id = $args["id"] ?? null;
+        $id = $args["entityId"] ?? null;
         if ($id === null && !($sender instanceof Player)) {
-            $sender->sendMessage(Main::PREFIX . "§c/betternpc remove <id> §8- §7Remove an entity");
+            $sender->sendMessage(Main::PREFIX . "§c/betternpc remove <entityId> §8- §7Remove an entity");
             return;
         }
 

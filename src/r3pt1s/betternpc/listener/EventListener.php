@@ -2,17 +2,13 @@
 
 namespace r3pt1s\betternpc\listener;
 
-use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerEntityInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
 use r3pt1s\betternpc\entity\BetterEntity;
 use r3pt1s\betternpc\entity\BetterEntityTypes;
 use r3pt1s\betternpc\form\FormManager;
@@ -30,36 +26,13 @@ final class EventListener implements Listener {
         PlayerSessionCache::remove($event->getPlayer());
     }
 
-    public function onMove(PlayerMoveEvent $event): void {
-        $player = $event->getPlayer();
-
-        /** @var BetterEntity $entity */
-        foreach (array_filter($player->getworld()->getEntities(), fn(Entity $entity) => $entity instanceof BetterEntity) as $entity) {
-            if ($entity->getEntityData()->getSettings()->isLookToPlayers()) {
-                if ($entity->getPosition()->distance($player->getPosition()) <= 9) {
-                    $horizontal = sqrt(($player->getPosition()->x - $entity->getPosition()->x) ** 2 + ($player->getPosition()->z - $entity->getLocation()->z) ** 2);
-                    $vertical = $player->getPosition()->y - $entity->getLocation()->getY();
-                    $pitch = -atan2($vertical, $horizontal) / M_PI * 180;
-
-                    $xDist = $player->getPosition()->x - $entity->getLocation()->x;
-                    $zDist = $player->getPosition()->z - $entity->getLocation()->z;
-
-                    $yaw = atan2($zDist, $xDist) / M_PI * 180 - 90;
-                    if ($yaw < 0) $yaw += 360.0;
-
-                    $player->getNetworkSession()->sendDataPacket(MoveActorAbsolutePacket::create($entity->getId(), Position::fromObject($entity->getOffsetPosition($entity->getPosition()), $entity->getWorld()), $pitch, $yaw, $yaw, 0));
-                }
-            }
-        }
-    }
-
     public function onDamage(EntityDamageEvent $event): void {
         if (BetterEntityTypes::checkClass($event->getEntity()::class)) $event->cancel();
     }
 
     public function onHit(EntityDamageByEntityEvent $event): void {
         /** @var BetterEntity $entity */
-        $entity = $event->getEntity();;
+        $entity = $event->getEntity();
         $player = $event->getDamager();
 
         if ($player instanceof Player && BetterEntityTypes::checkClass($entity::class)) {

@@ -2,6 +2,7 @@
 
 namespace r3pt1s\betternpc\entity\model;
 
+use JsonException;
 use pocketmine\entity\Skin;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
@@ -26,7 +27,7 @@ final readonly class SkinModel {
                 $this->getGeoName() ?? "",
                 $this->getGeoData() ?? ""
             );
-        } catch (\JsonException) {}
+        } catch (JsonException) {}
         return null;
     }
 

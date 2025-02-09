@@ -6,7 +6,6 @@ use pocketmine\entity\Entity;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
-use r3pt1s\betternpc\entity\animation\EntityAnimation;
 use r3pt1s\betternpc\entity\data\BetterEntityData;
 
 interface BetterEntity {
@@ -15,7 +14,7 @@ interface BetterEntity {
 
     public function onHit(Player $player);
 
-    public function runCommands(?Player $player): void;
+    public function runCommands(Player $player): void;
 
     public function addCommand(string $command): void;
 
@@ -38,18 +37,6 @@ interface BetterEntity {
     public function getEmotes(): array;
 
     public function isEmotingEnabled(): bool;
-
-    public function doAnimation(string $animation): void;
-
-    public function addAnimation(EntityAnimation $animation): void;
-
-    public function removeAnimation(EntityAnimation $animation): void;
-
-    public function checkAnimation(string $animation): bool;
-
-    public function getAnimation(string $animation): ?EntityAnimation;
-
-    public function getAnimations(): array;
 
     public function getEntityData(): BetterEntityData;
 

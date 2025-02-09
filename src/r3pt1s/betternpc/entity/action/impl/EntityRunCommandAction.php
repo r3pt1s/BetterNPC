@@ -2,7 +2,6 @@
 
 namespace r3pt1s\betternpc\entity\action\impl;
 
-use pocketmine\nbt\tag\StringTag;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\entity\action\EntityActionIds;
 use r3pt1s\betternpc\entity\action\IEntityAction;
@@ -11,18 +10,10 @@ use pocketmine\nbt\tag\CompoundTag;
 
 final class EntityRunCommandAction implements IEntityAction {
 
-    public function __construct(private string $command) {}
+    public function __construct() {}
 
     public function doAction(Player $player, BetterEntity $entity): void {
-        $player->chat($this->command);
-    }
-
-    public function setCommand(string $command): void {
-        $this->command = $command;
-    }
-
-    public function getCommand(): string {
-        return $this->command;
+        $entity->runCommands($player);
     }
 
     public function getId(): int {
@@ -30,18 +21,14 @@ final class EntityRunCommandAction implements IEntityAction {
     }
 
     public function toNbt(): CompoundTag {
-        return CompoundTag::create()
-            ->setString("command", $this->command);
+        return CompoundTag::create();
     }
 
-    public static function fromNbt(CompoundTag $nbt): ?EntityRunCommandAction {
-        if ($nbt->getTag("command") instanceof StringTag) {
-            return new self($nbt->getString("command"));
-        }
-        return null;
+    public static function fromNbt(CompoundTag $nbt): EntityRunCommandAction {
+        return new self();
     }
 
-    public static function create(string $command): self {
-        return new self($command);
+    public static function create(): self {
+        return new self();
     }
 }

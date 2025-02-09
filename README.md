@@ -16,10 +16,16 @@ BetterNPC is a npc plugin for PocketMine-MP.
 | /betternpc remove [id: int] | Remove an entity  |                   |
 | /betternpc list             | List all entities |                   |
 
-## Current Actions
+## Current Hit Actions
 | Action       | Description                      | Note                                       |
 |--------------|----------------------------------|--------------------------------------------|
 | Emote        | The entity is doing an emote     | The emote only works for human entities    |
-| Animation    | The entity is doing an animation | This is only possible with a resource pack |
 | Run Command  | The player runs a command        |                                            |
 | Send Message | Send a message to the player     |                                            |
+
+## Action Tag-Replacements
+Current player = The player who clicks on the NPC and runs the action
+
+| Tag      | Description               |
+|----------|---------------------------|
+| {player} | Current player username   |

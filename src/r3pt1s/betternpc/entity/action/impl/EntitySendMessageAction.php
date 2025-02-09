@@ -14,7 +14,7 @@ final class EntitySendMessageAction implements IEntityAction {
     public function __construct(private string $message) {}
 
     public function doAction(Player $player, BetterEntity $entity): void {
-        $player->sendMessage($this->message);
+        $player->sendMessage(str_replace(["{player}"], [$player->getName()], $this->message));
     }
 
     public function setMessage(string $message): void {
