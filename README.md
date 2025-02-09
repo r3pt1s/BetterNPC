@@ -1,3 +1,4 @@
+[![](https://poggit.pmmp.io/shield.state/BetterNPC)](https://poggit.pmmp.io/p/BetterNPC) [![](https://poggit.pmmp.io/shield.api/BetterNPC)](https://poggit.pmmp.io/p/BetterNPC)
 # About
 BetterNPC is a npc plugin for PocketMine-MP.
 
