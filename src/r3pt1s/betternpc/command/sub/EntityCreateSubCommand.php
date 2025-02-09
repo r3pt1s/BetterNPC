@@ -7,12 +7,11 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use r3pt1s\betternpc\form\FormManager;
-use r3pt1s\betternpc\Main;
 
 final class EntityCreateSubCommand extends BaseSubCommand {
 
     public function __construct() {
-        parent::__construct(Main::getInstance(), "create", "Create a new entity");
+        parent::__construct("create", "Create a new entity");
     }
 
     protected function prepare(): void {

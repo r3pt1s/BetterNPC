@@ -17,7 +17,7 @@ use r3pt1s\betternpc\player\PlayerSession;
 final class EntityEditSubCommand extends BaseSubCommand {
 
     public function __construct() {
-        parent::__construct(Main::getInstance(), "edit", "Edit an entity");
+        parent::__construct("edit", "Edit an entity");
     }
 
     protected function prepare(): void {

@@ -11,7 +11,7 @@ use r3pt1s\betternpc\Main;
 final class EntityListSubCommand extends BaseSubCommand {
 
     public function __construct() {
-        parent::__construct(Main::getInstance(), "list", "List the created entities");
+        parent::__construct("list", "List the created entities");
     }
 
     protected function prepare(): void {}

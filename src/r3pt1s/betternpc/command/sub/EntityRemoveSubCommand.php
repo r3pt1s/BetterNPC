@@ -15,7 +15,7 @@ use r3pt1s\betternpc\player\PlayerSession;
 final class EntityRemoveSubCommand extends BaseSubCommand {
 
     public function __construct() {
-        parent::__construct(Main::getInstance(), "remove", "Remove an entity");
+        parent::__construct("remove", "Remove an entity");
     }
 
     protected function prepare(): void {
