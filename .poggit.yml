@@ -1,0 +1,13 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/r3pt1s/BetterNPC
+build-by-default: true
+branches:
+- main
+projects:
+  BetterNPC:
+    path: ""
+    libs:
+      - src: dktapps-pm-pl/pmforms/pmforms
+        version: ^2.1.0
+      - src: ParoxityTeam/Commando/Commando
+        version: 3.2.1
+...
