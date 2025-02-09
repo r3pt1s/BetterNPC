@@ -10,13 +10,13 @@ BetterNPC is a npc plugin for PocketMine-MP.
 - Assign hit actions to your entities
 
 ## Commands
-| Name                        | Description       | Permission        |
-|-----------------------------|-------------------|-------------------|
-| /betternpc                  | Main Command      | betternpc.command |
-| /betternpc create           | Create an entity  |                   |
-| /betternpc edit             | Edit an entity    |                   |
-| /betternpc remove [id: int] | Remove an entity  |                   |
-| /betternpc list             | List all entities |                   |
+| Name                              | Description       | Permission        |
+|-----------------------------------|-------------------|-------------------|
+| /betternpc                        | Main Command      | betternpc.command |
+| /betternpc create                 | Create an entity  |                   |
+| /betternpc edit [entityId: int]   | Edit an entity    |                   |
+| /betternpc remove [entityId: int] | Remove an entity  |                   |
+| /betternpc list                   | List all entities |                   |
 
 ## Current Hit Actions
 | Action       | Description                      | Note                                       |
