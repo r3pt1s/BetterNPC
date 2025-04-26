@@ -13,5 +13,5 @@ hit-action-cooldown: 10
 # The cooldown for the random emote setting for entities in seconds (Default: 60)
 random-emote-cooldown: 60
 
-# If a player hits the entity and the entity has a "run_command" hit action, the server performs the command and not the server. (Default: false)
+# If true, when a player hits the entity and the entity has a "run_command" hit action, the server performs the command and not the client. (Default: false)
 server-command-handling: false
