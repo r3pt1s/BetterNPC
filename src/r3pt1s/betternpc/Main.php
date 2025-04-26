@@ -29,7 +29,7 @@ class Main extends PluginBase {
         if (!file_exists($this->getDataFolder() . "skins/")) mkdir($this->getDataFolder() . "skins/");
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
-        $this->getServer()->getCommandMap()->register("betterNPC", new EntityMainCommand());
+        $this->getServer()->getCommandMap()->register("BetterNPC", new EntityMainCommand());
     }
 
     public function getSkinsPath(): string {

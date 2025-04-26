@@ -5,13 +5,14 @@ namespace r3pt1s\betternpc\command;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\Server;
 use r3pt1s\betternpc\entity\BetterEntity;
 use r3pt1s\betternpc\form\FormManager;
 use r3pt1s\betternpc\Main;
 use r3pt1s\betternpc\player\PlayerSession;
 
-final class EntityMainCommand extends Command {
+final class EntityMainCommand extends Command implements PluginOwned {
 
     public function __construct() {
         parent::__construct("betternpc", "BetterNPC Main Command", "/betternpc", ["npc"]);
@@ -126,5 +127,9 @@ final class EntityMainCommand extends Command {
         }
 
         return true;
+    }
+
+    public function getOwningPlugin(): Main {
+        return Main::getInstance();
     }
 }
