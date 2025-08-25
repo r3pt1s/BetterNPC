@@ -21,11 +21,11 @@ class Main extends PluginBase {
 
         EmoteList::loadEmotes($this->getConfig());
         EntityGlobalSettings::loadSettings($this->getConfig());
+
+        BetterEntityTypes::init();
     }
 
     protected function onEnable(): void {
-        BetterEntityTypes::init();
-
         if (!file_exists($this->getDataFolder() . "skins/")) mkdir($this->getDataFolder() . "skins/");
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);

@@ -2,6 +2,7 @@ name: BetterNPC
 version: 1.0.0
 api: 5.0.0
 main: r3pt1s\betternpc\Main
+load: STARTUP
 author: r3pt1s
 permissions:
   betternpc.command:
