@@ -30,6 +30,7 @@ final class FormManager {
         return new CustomForm(
             "Create an entity",
             [
+                new Label("tip", "Use {line} to indicate a new line!"),
                 new Dropdown("type", "Please select an entity type", BetterEntityTypes::getAll()),
                 new Input("nameTag", "Please set the nameTag", "You are cool!", ""),
                 new Input("scoreTag", "You can provide a scoreTag"),
@@ -41,8 +42,8 @@ final class FormManager {
             ],
             function (Player $player, CustomFormResponse $response): void {
                 $type = BetterEntityTypes::getAll()[$response->getInt("type")];
-                $nameTag = trim($response->getString("nameTag"));
-                $scoreTag = trim($response->getString("scoreTag"));
+                $nameTag = str_replace("{line}", "\n", trim($response->getString("nameTag")));
+                $scoreTag = str_replace("{line}", "\n", trim($response->getString("scoreTag")));
                 $scale = $response->getFloat("scale");
                 $hitAction = $response->getInt("hitAction");
                 $nameTagAlwaysVisible = $response->getBool("nameTagAlwaysVisible");
@@ -205,8 +206,9 @@ final class FormManager {
         return new CustomForm(
             "Edit an entity",
             [
-                new Input("nameTag", "Current nameTag", $entity->getNameTag(), $entity->getNameTag()),
-                new Input("scoreTag", "Current scoreTag", $entity->getScoreTag(), $entity->getScoreTag()),
+                new Label("tip", "Use {line} to indicate a new line!"),
+                new Input("nameTag", "Current nameTag", $nameTag = str_replace("\n", "{line}", $entity->getNameTag()), $nameTag),
+                new Input("scoreTag", "Current scoreTag", $scoreTag = str_replace("\n", "{line}", $entity->getScoreTag()), $scoreTag),
                 new Slider("scale", "Current size of the entity", 0.5, 2, 0.1, $entity->getScale()),
                 new Dropdown("hitAction", "Current hitAction", ["RUN_COMMAND", "DO_EMOTE", "SEND_MESSAGE", "NOTHING"], $hitActionIndex),
                 new Toggle("nameTagAlwaysVisible", "Is nameTag always visible?", $entity->getEntityData()->getSettings()->isNameTagAlwaysVisible()),
@@ -223,8 +225,8 @@ final class FormManager {
                 $doRandomEmotes = $response->getBool("doRandomEmotes");
 
                 if ($hitAction == 3 || $hitAction == $hitActionIndex) {
-                    $entity->getEntity()->setNameTag($nameTag);
-                    $entity->getEntity()->setScoreTag($scoreTag);
+                    $entity->getEntity()->setNameTag(str_replace("{line}", "\n", $nameTag));
+                    $entity->getEntity()->setScoreTag(str_replace("{line}", "\n", $scoreTag));
                     $entity->getEntity()->setScale($scale);
                     $entity->getEntity()->setNameTagAlwaysVisible($nameTagAlwaysVisible);
                     $entity->getEntityData()->setHitAction($hitAction == 3 ? null : $entity->getEntityData()->getHitAction());
@@ -271,8 +273,8 @@ final class FormManager {
                     $entity->addCommand($actionDataRaw);
                 }
 
-                $entity->getEntity()->setNameTag($nameTag);
-                $entity->getEntity()->setScoreTag($scoreTag);
+                $entity->getEntity()->setNameTag(str_replace("{line}", "\n", $nameTag));
+                $entity->getEntity()->setScoreTag(str_replace("{line}", "\n", $scoreTag));
                 $entity->getEntity()->setScale($scale);
                 $entity->getEntity()->setNameTagAlwaysVisible($nameTagAlwaysVisible);
                 $entity->getEntityData()->setHitAction($actionData);

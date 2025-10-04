@@ -18,8 +18,8 @@ trait EntityDataTrait {
     private int $hitActionCoolDown = 0;
 
     public function loadData(?CompoundTag $nbt): void {
-        $this->setNameTag($this->entityData->getNameTag());
-        $this->setScoreTag($this->entityData->getScoreTag());
+        $this->setNameTag(str_replace("{line}", "\n", $this->entityData->getNameTag()));
+        $this->setScoreTag(str_replace("{line}", "\n", $this->entityData->getScoreTag()));
         $this->setScale($this->entityData->getScale());
         $this->setNameTagAlwaysVisible($this->entityData->getSettings()->isNameTagAlwaysVisible());
         $this->loadEmotes($nbt?->getListTag("emotes"));
@@ -52,11 +52,13 @@ trait EntityDataTrait {
     }
 
     public function setNameTag(string $name): void {
+        $name = str_replace("{line}", "\n", $name);
         parent::setNameTag($name);
         $this->entityData->setNameTag($name);
     }
 
     public function setScoreTag(string $score): void {
+        $score = str_replace("{line}", "\n", $score);
         parent::setScoreTag($score);
         $this->entityData->setScoreTag($score);
     }
